@@ -37,7 +37,7 @@ public class Main {
             out.print("You entered " + finalRoomCount + " rooms.");
         }
         
-        out.println("You finished with $" + playerMoney);
+        out.println("\nYou finished with $" + playerMoney);
         int randomChance = rand.nextInt(4);
         if (randomChance > 2){
             out.println("\nOh no, that ghost in the window has begun following you!\n\n..I mean the gamess still over but.. OOOOOO SPOOOOKKYYYY!");
