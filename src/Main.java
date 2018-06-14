@@ -117,7 +117,7 @@ public class Main {
     private static int outsideRoom() {
         Scanner player = new Scanner(System.in);
         out.print("\nYou are outside an old, creepy looking house..\n"+ "You thought you saw a ghost in the window upstairs.\n" + "{You can enter the house to the North by typing 'N' or press 'Q' to Quit}\n");
-        String playerChoice = player.nextLine();
+        String playerChoice = player.next();
         if (playerChoice.equalsIgnoreCase("n")){
             playerDirection = 0;
         } else if(!playerChoice.equalsIgnoreCase("n")){
@@ -125,6 +125,15 @@ public class Main {
         }
         return playerDirection;
     }
+//
+//    public static void getMoney(boolean roomMoney, boolean userChoice, int randomMoney){
+//        if(roomMoney){
+//            out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{Enter 'y' for yes, or 'n' for no}\n");
+//            try {
+//                playerMoney = moneyTotal()
+//            }
+//        }
+//    }
 
     public static int foyerRoom() {
         roomCount[0] = true;
@@ -133,18 +142,28 @@ public class Main {
         out.print("\nYou are in the Foyer Room.\n");
             if (roomMoney[0]){
                 out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
-                int moneyChoice = player.nextInt();
-                playerMoney = moneyTotal(moneyChoice, playerMoney, randomMoney);
-                out.println("\nYou now have $" + playerMoney + ".");
-                roomMoney[0] = false;
+                try {
+                    int moneyChoice = player.nextInt();
+                    playerMoney = moneyTotal(moneyChoice, playerMoney, randomMoney);
+                    out.println("\nYou now have $" + playerMoney + ".");
+                    roomMoney[0] = false;
+                } catch (Exception e){
+                    out.println("Invalid entry!\n");
+                    playerDirection = 0;
+                }
             }
         out.print("You see a dead scorpion.\n" + printDesign(3) + "\nGross..\n" + "{You can enter 'N' to exit to the North, 'S' to exit the house to the south, or press Q to Quit}\n");
-        String playerChoice= player.nextLine();
+        String playerChoice= player.next();
         if (playerChoice.equalsIgnoreCase("n")){
             playerDirection = 1;
         } else if (playerChoice.equalsIgnoreCase("s")){
             playerDirection = 8;
-        } else if (!playerChoice.equalsIgnoreCase("n") && !playerChoice.equalsIgnoreCase("s")){
+        } else if (!playerChoice.equalsIgnoreCase("n") || !playerChoice.equalsIgnoreCase("s")){
+            if (playerChoice.equalsIgnoreCase("q")){
+                String output = gameEnd(hasTreasure, currentRoom, playerMoney);
+                out.println(output);
+                isPlaying = false;
+            }
             playerDirection = 0;
         }
         return playerDirection;
@@ -154,7 +173,7 @@ public class Main {
         roomCount[1] = true;
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
-        out.println("\nOk, now you are in the Front Room.\n" + "You can play Piano and enjoy here.\n" + printDesign(4));
+        out.println("\nOk, now you are in the Front Room.\n");
         if (roomMoney[1]){
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
@@ -162,8 +181,8 @@ public class Main {
             out.println("\nYou now have $" + playerMoney + ".");
             roomMoney[1] = false;
         }
-        out.println("{You can enter 'S' to exit to the South, 'W' to exit West, 'E' to exit to East, or press Q to Quit}");
-        String playerChoice = player.nextLine();
+        out.println("You can play Piano and enjoy here.\n" + printDesign(4)+ "{You can enter 'S' to exit to the South, 'W' to exit West, 'E' to exit to East, or press Q to Quit}");
+        String playerChoice = player.next();
         if (playerChoice.equalsIgnoreCase("s")){
             playerDirection = 0;
         } else if (playerChoice.equalsIgnoreCase("w")){
@@ -180,7 +199,7 @@ public class Main {
         roomCount[2] = true;
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
-        out.println("\nOk, now you are in the Library.\n" + printDesign(5) + "\nThere are lots of spider here, Be Careful!\n");
+        out.println("\nOk, now you are in the Library.\n");
         if (roomMoney[2]){
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
@@ -188,8 +207,8 @@ public class Main {
             out.println("\nYou now have $" + playerMoney + ".");
             roomMoney[2] = false;
         }
-        out.println("{You can enter 'E' to exit to the East, 'N' to exit to the North, or press Q to Quit}");
-        String playerChoice = player.nextLine();
+        out.println(printDesign(5) + "\nThere are lots of spider here, Be Careful!\n" + "{You can enter 'E' to exit to the East, 'N' to exit to the North, or press Q to Quit}");
+        String playerChoice = player.next();
         if (playerChoice.equalsIgnoreCase("n")){
             playerDirection = 4;
         } else if (playerChoice.equalsIgnoreCase("e")){
@@ -204,7 +223,7 @@ public class Main {
         roomCount[3] = true;
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
-        out.println("\nOk, now you are in the Kitchen.\n"+ "There are bats in this room!\n" + printDesign(6));
+        out.println("\nOk, now you are in the Kitchen.\n");
         if (roomMoney[3]){
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
@@ -212,8 +231,8 @@ public class Main {
             out.println("\nYou now have $" + playerMoney + ".");
             roomMoney[3] = false;
         }
-        out.println("{You can enter 'W' to exit to the West, 'N' to exit to the North or press Q to Quit}");
-        String playerChoice = player.nextLine();
+        out.println("There are bats in this room!\n" + printDesign(6) + "{You can enter 'W' to exit to the West, 'N' to exit to the North or press Q to Quit}");
+        String playerChoice = player.next();
         if (playerChoice.equalsIgnoreCase("w")){
             playerDirection = 1;
         } else if(playerChoice.equalsIgnoreCase("n")){
@@ -228,7 +247,7 @@ public class Main {
         roomCount[4] = true;
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
-        out.println("\nOk, now you are in the Dining Room.\n" + "You can find dust and an empty box in this room.\n" + printDesign(7));
+        out.println("\nOk, now you are in the Dining Room.\n");
         if (roomMoney[4]){
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
@@ -236,8 +255,8 @@ public class Main {
             out.println("\nYou now have $" + playerMoney + ".");
             roomMoney[4] = false;
         }
-        out.println("{You can enter 'S' to exit South or Q to Quit}");
-        String playerChoice = player.nextLine();
+        out.println("You can find dust and an ugly looking empty box in this room.\n" + printDesign(7) + "{You can enter 'S' to exit South or Q to Quit}");
+        String playerChoice = player.next();
         if (playerChoice.equalsIgnoreCase("s")){
             playerDirection = 2;
         } else if (!playerChoice.equalsIgnoreCase("s")){
@@ -250,7 +269,7 @@ public class Main {
         roomCount[5] = true;
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
-        out.println("\nOk, now you are in the vault.\nWatch out, there are 3 walking skeletons!\n" + printDesign(8));
+        out.println("\nOk, now you are in the vault.\n");
         if (roomMoney[5]){
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
@@ -258,8 +277,8 @@ public class Main {
             out.println("\nYou now have $" + playerMoney + ".");
             roomMoney[5] = false;
         }
-        out.println("{You can enter 'E' to exit East, or Q to Quit}");
-        String playerChoice = player.nextLine();
+        out.println("Watch out, there are 3 walking skeletons!\n" + printDesign(8) + "{You can enter 'E' to exit East, or Q to Quit}");
+        String playerChoice = player.next();
         if (playerChoice.equalsIgnoreCase("e")){
             playerDirection = 7;
         } else if(!playerChoice.equalsIgnoreCase("e")){
@@ -272,7 +291,7 @@ public class Main {
         roomCount[6] = true;
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
-        out.println("\nYou are in the parlor, this is the place for treasure chest.\n" + printDesign(9));
+        out.println("\nOk, now you are in the parlor.");
         if (roomMoney[6]){
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
@@ -280,8 +299,8 @@ public class Main {
             out.println("\nYou now have $" + playerMoney + ".");
             roomMoney[6] = false;
         }
-        out.println("{Enter 'W' to exit West, 'S' to exit South, or Q to Quit}");
-        String playerChoice = player.nextLine();
+        out.println("In the middle of the room you see a locked treasure chest.\n" + printDesign(9) + "{Enter 'W' to exit West, 'S' to exit South, or Q to Quit}");
+        String playerChoice = player.next();
         if (playerChoice.equalsIgnoreCase("w")){
             playerDirection = 5;
         } else if (playerChoice.equalsIgnoreCase("s")){
@@ -297,7 +316,7 @@ public class Main {
         Scanner player = new Scanner(System.in);
         out.println("\nYAY, You are in the Secret room, All of the Gold in here is yours.\n"+ printDesign(10 ) + "Now, try and find your way out ;)\n" +
                 "{Enter 'W' to exit West, or Q to Quit}" );
-        String playerChoice = player.nextLine();
+        String playerChoice = player.next();
         if (playerChoice.equalsIgnoreCase("w")){
             playerDirection = 5;
         } else if(!playerChoice.equalsIgnoreCase("w")){
@@ -323,9 +342,13 @@ public class Main {
             moneyTotal = playerMoney + roomMoney;
         } else if(playerChoice == 2){
             moneyTotal = playerMoney;
+        } else {
+            moneyTotal = Integer.parseInt(null);
         }
         return moneyTotal;
    }
+
+   // HERE ON IS GRAPHICS
 
    private static String printDesign(int whichDesign){
         String output = "";
@@ -438,7 +461,7 @@ public class Main {
                     "              \\  |       .-'\n" +
                     "               \\ |    .-'\n" +
                     "                \\| .-'\n" +
-                    "                 +\n";
+                    "                 +\n\n\n";
         } else if(whichDesign == 8){
             output += "\n" +
                     "      .-.         .-.          .-.   ____________\n" +
@@ -476,7 +499,7 @@ public class Main {
                     "               ||      || |'|    _.-'_.-'\n" +
                     "               |'-._   || |'|_.-'_.-'\n" +
                     "                '-._'-.|| |' `_.-'\n" +
-                    "                    '-.||_/.-'\n";
+                    "                    '-.||_/.-'\n\n\n";
         } else if(whichDesign == 9){
             output += "\n" +
                     "                    ____...------------...____\n" +
