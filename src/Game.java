@@ -27,8 +27,5 @@ public class Game {
                 isPlaying = false;
             }
         }
-
-        Mechanics.displayGameEnd();
-
     }
 }
