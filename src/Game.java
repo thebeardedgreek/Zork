@@ -22,13 +22,13 @@ public class Game {
             try {
                 currentRoom = Room.chooseRoom(currentRoom);
             } catch (Exception e) {
-                String output = Room.gameEnd(hasTreasure, currentRoom, playerMoney);
+                String output = Mechanics.gameEnd(hasTreasure, currentRoom, playerMoney);
                 out.println(output);
                 isPlaying = false;
             }
         }
 
-        Room.displayGameEnd();
+        Mechanics.displayGameEnd();
 
     }
 }

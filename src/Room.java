@@ -5,7 +5,7 @@ import static java.lang.System.out;
 
 public class Room {
 
-    protected static Random rand = new Random(3);
+    protected static Random rand = new Random();
 
     protected static int chooseRoom(int currentRoom) {
         switch (currentRoom) {
@@ -49,70 +49,8 @@ public class Room {
                 return Integer.parseInt(null);
         }
     }
-    
-    protected static void displayGameEnd(){
-        int finalRoomCount;
-        finalRoomCount = roomTotal(Game.roomCount);
-        if (finalRoomCount == 1) {
-            out.print("You only entered " + finalRoomCount + " room! :(");
-        } else {
-            out.print("You entered " + finalRoomCount + " rooms.");
-        }
 
-        out.println("\nYou finished with $" + Game.playerMoney);
-        int randomChance = rand.nextInt(4);
-        if (randomChance > 2) {
-            out.println("\nOh no, that ghost in the window has begun following you!\n\n..I mean the gamess still over but.. OOOOOO SPOOOOKKYYYY!");
-        }
-    }
 
-    protected static int roomTotal(boolean[] roomCount) {
-        for (boolean aRoomCount : Game.roomCount) {
-            if (aRoomCount) {
-                Game.roomCounter++;
-            }
-        }
-        return Game.roomCounter;
-    }
-    
-    protected static int moneyTotal(int playerChoice, int playerMoney, int roomMoney) {
-        int moneyTotal;
-        if (playerChoice == 1) {
-            moneyTotal = Game.playerMoney + roomMoney;
-        } else if (playerChoice == 2) {
-            moneyTotal = Game.playerMoney;
-        } else {
-            moneyTotal = Integer.parseInt(null);
-        }
-        return moneyTotal;
-    }
-
-    protected static String gameEnd(Boolean hasTreasure, int isOutside, int playerCash) {
-        String output = Graphic.printDesign(2);
-
-        if (hasTreasure && isOutside == 8) {
-            output += "Well done! You have escaped the house with the treasure and $" + playerCash + " that you found!\nThank you for playing!";
-        } else if (hasTreasure && isOutside != 8) {
-            output += "You found the treasure, but you have to find your way out to win the game!";
-            if (playerCash > 0) {
-                output += "You ended the game with $" + playerCash + "!";
-            }
-            output += "\nThank you for playing!";
-        } else if (!hasTreasure && isOutside != 8) {
-            output += "You never found the treasure :(";
-            if (playerCash > 0) {
-                output += "You ended the game with $" + playerCash + "!";
-            }
-            output += "\nThank you for playing!";
-        } else if (!hasTreasure && isOutside == 8) {
-            output += "Well, you didn't get lost in the house.. but you never found the treasure!";
-            if (playerCash > 0) {
-                output += "You get to leave with $" + playerCash + " that you found!";
-            }
-            output += "\nThank you for playing!\n\n";
-        }
-        return output;
-    }
     
     protected static int outsideRoom() {
         Scanner player = new Scanner(System.in);
@@ -122,7 +60,7 @@ public class Room {
             Game.playerDirection = 0;
         } else if (!playerChoice.equalsIgnoreCase("n")) {
             if (playerChoice.equalsIgnoreCase("q")) {
-                String output = gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
+                String output = Mechanics.gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
                 out.println(output);
                 Game.isPlaying = false;
             }
@@ -136,12 +74,13 @@ public class Room {
         Game.roomCount[0] = true;
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
-        out.print("\nYou are in the Foyer Room.\n");
+        out.print("\nOk, now you are in the Foyer Room.\n");
+        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
         if (Game.roomMoney[0]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             try {
                 int moneyChoice = player.nextInt();
-                Game.playerMoney = moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
+                Game.playerMoney = Mechanics.moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
                 out.println("\nYou now have $" + Game.playerMoney + ".");
                 Game.roomMoney[0] = false;
             } catch (Exception e) {
@@ -157,7 +96,7 @@ public class Room {
             Game.playerDirection = 8;
         } else if (!playerChoice.equalsIgnoreCase("n") || !playerChoice.equalsIgnoreCase("s")) {
             if (playerChoice.equalsIgnoreCase("q")) {
-                String output = gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
+                String output = Mechanics.gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
                 out.println(output);
                 Game.isPlaying = false;
             }
@@ -171,10 +110,11 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the Front Room.\n");
+        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
         if (Game.roomMoney[1]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
-            Game.playerMoney = moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
+            Game.playerMoney = Mechanics.moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
             out.println("\nYou now have $" + Game.playerMoney + ".");
             Game.roomMoney[1] = false;
         }
@@ -188,7 +128,7 @@ public class Room {
             Game.playerDirection = 3;
         } else if (!playerChoice.equalsIgnoreCase("w") && !playerChoice.equalsIgnoreCase("e") && !playerChoice.equalsIgnoreCase("s")) {
             if (playerChoice.equalsIgnoreCase("q")) {
-                String output = gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
+                String output = Mechanics.gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
                 out.println(output);
                 Game.isPlaying = false;
             }
@@ -202,10 +142,11 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the Library.\n");
+        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
         if (Game.roomMoney[2]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
-            Game.playerMoney = moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
+            Game.playerMoney = Mechanics.moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
             out.println("\nYou now have $" + Game.playerMoney + ".");
             Game.roomMoney[2] = false;
         }
@@ -217,7 +158,7 @@ public class Room {
             Game.playerDirection = 1;
         } else if (!playerChoice.equalsIgnoreCase("n") && !playerChoice.equalsIgnoreCase("e")) {
             if (playerChoice.equalsIgnoreCase("q")) {
-                String output = gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
+                String output = Mechanics.gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
                 out.println(output);
                 Game.isPlaying = false;
             }
@@ -231,10 +172,11 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the Kitchen.\n");
+        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
         if (Game.roomMoney[3]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
-            Game.playerMoney = moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
+            Game.playerMoney = Mechanics.moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
             out.println("\nYou now have $" + Game.playerMoney + ".");
             Game.roomMoney[3] = false;
         }
@@ -246,7 +188,7 @@ public class Room {
             Game.playerDirection = 6;
         } else if (!playerChoice.equalsIgnoreCase("n") && !playerChoice.equalsIgnoreCase("w")) {
             if (playerChoice.equalsIgnoreCase("q")) {
-                String output = gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
+                String output = Mechanics.gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
                 out.println(output);
                 Game.isPlaying = false;
             }
@@ -260,10 +202,11 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the Dining Room.\n");
+        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
         if (Game.roomMoney[4]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
-            Game.playerMoney = moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
+            Game.playerMoney = Mechanics.moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
             out.println("\nYou now have $" + Game.playerMoney + ".");
             Game.roomMoney[4] = false;
         }
@@ -273,7 +216,7 @@ public class Room {
             Game.playerDirection = 2;
         } else if (!playerChoice.equalsIgnoreCase("s")) {
             if (playerChoice.equalsIgnoreCase("q")) {
-                String output = gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
+                String output = Mechanics.gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
                 out.println(output);
                 Game.isPlaying = false;
             }
@@ -287,10 +230,11 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the vault.\n");
+        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
         if (Game.roomMoney[5]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
-            Game.playerMoney = moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
+            Game.playerMoney = Mechanics.moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
             out.println("\nYou now have $" + Game.playerMoney + ".");
             Game.roomMoney[5] = false;
         }
@@ -300,7 +244,7 @@ public class Room {
             Game.playerDirection = 7;
         } else if (!playerChoice.equalsIgnoreCase("e")) {
             if (playerChoice.equalsIgnoreCase("q")) {
-                String output = gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
+                String output = Mechanics.gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
                 out.println(output);
                 Game.isPlaying = false;
             }
@@ -314,10 +258,11 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the parlor.");
+        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
         if (Game.roomMoney[6]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
-            Game.playerMoney = moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
+            Game.playerMoney = Mechanics.moneyTotal(moneyChoice, Game.playerMoney, randomMoney);
             out.println("\nYou now have $" + Game.playerMoney + ".");
             Game.roomMoney[6] = false;
         }
@@ -329,7 +274,7 @@ public class Room {
             Game.playerDirection = 3;
         } else if (!playerChoice.equalsIgnoreCase("w") && playerChoice.equalsIgnoreCase("s")) {
             if (playerChoice.equalsIgnoreCase("q")) {
-                String output = gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
+                String output = Mechanics.gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
                 out.println(output);
                 Game.isPlaying = false;
             }
@@ -348,7 +293,7 @@ public class Room {
             Game.playerDirection = 5;
         } else if (!playerChoice.equalsIgnoreCase("w")) {
             if (playerChoice.equalsIgnoreCase("q")) {
-                String output = gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
+                String output = Mechanics.gameEnd(Game.hasTreasure, Game.currentRoom, Game.playerMoney);
                 out.println(output);
                 Game.isPlaying = false;
             }
