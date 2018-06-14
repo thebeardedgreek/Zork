@@ -75,7 +75,7 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.print("\nOk, now you are in the Foyer Room.\n");
-        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
+        Mechanics.banditSteve(Game.currentRoom);
         if (Game.roomMoney[0]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             try {
@@ -110,7 +110,7 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the Front Room.\n");
-        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
+        Mechanics.banditSteve(Game.currentRoom);
         if (Game.roomMoney[1]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
@@ -142,7 +142,7 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the Library.\n");
-        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
+        Mechanics.banditSteve(Game.currentRoom);
         if (Game.roomMoney[2]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
@@ -172,7 +172,7 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the Kitchen.\n");
-        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
+        Mechanics.banditSteve(Game.currentRoom);
         if (Game.roomMoney[3]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
@@ -202,7 +202,7 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the Dining Room.\n");
-        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
+        Mechanics.banditSteve(Game.currentRoom);
         if (Game.roomMoney[4]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
@@ -230,7 +230,7 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the vault.\n");
-        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
+        Mechanics.banditSteve(Game.currentRoom);
         if (Game.roomMoney[5]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();
@@ -258,7 +258,7 @@ public class Room {
         int randomMoney = 1 + rand.nextInt(1000);
         Scanner player = new Scanner(System.in);
         out.println("\nOk, now you are in the parlor.");
-        Mechanics.banditSteve(Game.currentRoom, Game.playerMoney);
+        Mechanics.banditSteve(Game.currentRoom);
         if (Game.roomMoney[6]) {
             out.print("You find $" + randomMoney + " lying on the ground in this room. \nDo you pick it up? \n{You can enter 1 to pick it up, or 2 to ignore it.}\n");
             int moneyChoice = player.nextInt();

@@ -1,9 +1,14 @@
 import java.util.Random;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.System.out;
 
 
 public class Mechanics {
+
+    private static Random rand = new Random();
+    static int randomRoom = rand.nextInt(7);
 
     protected static String gameEnd(Boolean hasTreasure, int isOutside, int playerCash) {
         String output = Graphic.printDesign(2);
@@ -69,14 +74,15 @@ public class Mechanics {
         }
     }
 
-    protected static Random rand = new Random();
-
-    protected static void banditSteve(int currentRoom, int currentCash){
-        int randomRoom = rand.nextInt(8);
+    protected static void banditSteve(int currentRoom)  {
         if (currentRoom == randomRoom){
+            Game.playerMoney = 0;
             out.println(Graphic.printDesign(11) + "Oh no, it's Steve the Bandit!\n\nSteve takes all your cash :(\n\n" +
-                    "You're back to $" + currentCash + "\n\n");
+                    "You're back to $" + Game.playerMoney + ".\nPress any button to continue.\n");
+            Game.roomMoney[currentRoom] = false;
+            randomRoom = 444;
+            Scanner player = new Scanner(System.in);
+            String buffer = player.nextLine();
         }
-        Game.roomMoney[currentRoom] = false;
     }
 }
